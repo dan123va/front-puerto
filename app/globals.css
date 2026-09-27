@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+header {
+  height: 76px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 max(5vw, 24px);
+  border-bottom: 1px solid #e6e0e3;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+}
+
+.brand b {
+  color: #a90055;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  background: #a90055;
+  color: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+}
+
+.environment {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  color: #807780;
+  background: #f4eff2;
+  padding: 8px 12px;
+  border-radius: 30px;
+}
