@@ -115,7 +115,7 @@ export default function Order() {
     if (!confirm("¿Eliminar este pedido? Esta acción no se puede deshacer."))
       return;
 
-    const orderResponse = await fetch(
+    await fetch(
       `${API_URL}/orders/${id}`,
       {
         method: 'DELETE'
