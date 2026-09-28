@@ -1,11 +1,16 @@
 import './globals.css'
+import type { Metadata } from "next";
+import Layout from "./components/Layout";
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export const metadata: Metadata = {
+  title: "Liverpool Pedidos",
+  description: "Gestión omnicanal de pedidos de El Puerto de Liverpool",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="es-MX">
+      <body><Layout>{children}</Layout></body>
     </html>
   );
 }
