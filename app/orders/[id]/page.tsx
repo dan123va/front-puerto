@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams } from 'next/navigation';
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Order() {
   const params = useParams<{ id: string }>();
@@ -16,7 +15,7 @@ export default function Order() {
     setLoading(true);
     setError("");
     try {
-      const orderResponse = await fetch(`${API_URL}/orders/id`);
+      const orderResponse = await fetch(`https://api-java-puerto.onrender.com/api/orders/id`);
       const data = await orderResponse.json()
       
       setOrder(data)
