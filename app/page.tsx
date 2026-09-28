@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, PackageOpen, RefreshCw } from "lucide-react";
 import StatusBadge from "./components/StatusBadge";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Order {
     id: string;
@@ -27,7 +28,7 @@ export default function Home() {
         setLoading(true);
         setError("");
         try {
-            const ordersResponse = await fetch('http://localhost:8080/api/orders');
+            const ordersResponse = await fetch(`${API_URL}/orders`);
             const data = await ordersResponse.json()
             setOrders(data)
         } catch (cause) {
