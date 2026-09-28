@@ -1,25 +1,82 @@
-# Liverpool Pedidos — Next.js
+# Liverpool Frontend
 
-Frontend de gestión de pedidos Next.js con App Router.
+Interfaz de administración de usuarios y pedidos desarrollada con Next.js 16, React 19 y TypeScript.
 
-## Configuración
+## Requisitos
 
-1. Copia `.env.example` como `.env.local`.
-2. Ajusta `NEXT_PUBLIC_API_URL` si el backend no se ejecuta en `http://localhost:8080/api`.
-3. Instala las dependencias con `npm install`.
-4. Inicia el entorno local con `npm run dev`.
+- Node.js 20.9 o posterior.
+- npm.
+- Liverpool API ejecutándose en `http://localhost:8080`.
 
-La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
+Los pasos para iniciar la API están en `../liverpool-lapi/README.md`.
 
-## Comandos
+## Configurar el frontend
 
-- `npm run dev`: servidor de desarrollo.
-- `npm run build`: build de producción.
-- `npm run start`: inicia el build de producción.
-- `npm run lint`: validación de código.
+Desde esta carpeta crea el archivo local de variables de entorno:
 
-## Rutas
+```powershell
+Copy-Item .env.example .env.local
+```
 
-- `/`: listado y búsqueda de pedidos.
-- `/orders`: redirección al listado.
+El archivo `.env.local` debe contener:
+
+```properties
+NEXT_PUBLIC_API_URL=http://localhost:8080/api
+```
+
+Si el backend utiliza otra dirección o puerto, actualiza esta variable.
+
+## Instalar dependencias
+
+```powershell
+npm install
+```
+
+## Iniciar en desarrollo
+
+```powershell
+npm run dev
+```
+
+Abre la aplicación en:
+
+```text
+http://localhost:3000
+```
+
+## Comandos disponibles
+
+- `npm run dev`: inicia el servidor de desarrollo.
+- `npm run lint`: valida el código con ESLint.
+- `npm run build`: genera el build de producción.
+- `npm run start`: inicia un build de producción existente.
+
+Para comprobar el proyecto antes de desplegarlo:
+
+```powershell
+npm run lint
+npm run build
+```
+
+Para ejecutar el build de producción:
+
+```powershell
+npm run build
+npm run start
+```
+
+## Rutas de la aplicación
+
+- `/`: listado, búsqueda y creación de pedidos.
 - `/orders/[id]`: detalle, actualización de estado y eliminación de un pedido.
+
+## Detener el frontend
+
+Presiona `Ctrl + C` en la terminal donde se está ejecutando Next.js.
+
+## Solución de problemas
+
+- Si no aparecen pedidos, comprueba que `http://localhost:8080/api/orders` responda correctamente.
+- Si cambia `.env.local`, reinicia `npm run dev`.
+- Si el puerto `3000` está ocupado, detén el proceso que lo utiliza o inicia Next.js en otro puerto.
+- Si aparece un error de CORS, comprueba que el backend permita `http://localhost:3000`.
