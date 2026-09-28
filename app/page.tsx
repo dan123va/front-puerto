@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, PackageOpen, RefreshCw } from "lucide-react";
 import StatusBadge from "./components/StatusBadge";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Order {
     id: string;
@@ -27,11 +28,15 @@ export default function Home() {
         setLoading(true);
         setError("");
         try {
-            const ordersResponse = await fetch(`https://api-java-puerto.onrender.com/api/orders`);
-            const data = await ordersResponse.json()
-            setOrders(data)
+            const ordersResponse = await fetch(`${API_URL}/orders`);
+            if (!ordersResponse.ok) {
+                throw new Error("No fue posible cargar los pedidos");
+            }
+
+            const data = await ordersResponse.json();
+            setOrders(data);
         } catch (cause) {
-            setError(cause instanceof Error ? cause.message : "No fue posible cargar los usuarios");
+            setError(cause instanceof Error ? cause.message : "No fue posible cargar los pedidos");
         } finally {
             setLoading(false);
         }
@@ -52,6 +57,10 @@ export default function Home() {
         </section>
         <section className="panel">
             {loading ? <div className="state"><RefreshCw className="spin" /> Cargando pedidos…</div> :
+                error ? <div className="state">
+                    <span>{error}</span>
+                    <button type="button" onClick={getOrders}>Reintentar</button>
+                </div> :
                 <div className="table-wrap"><table>
                     <thead>
                         <tr>
@@ -62,7 +71,7 @@ export default function Home() {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>{orders.map((order) => <tr key={order?.id}>
+                    <tbody>{orders.length > 0 && orders.map((order) => <tr key={order?.id}>
                         <td data-label="Pedido">
                             <strong>{order?.productCode}</strong>
                             <small>#{order?.id.slice(-8).toUpperCase()}</small>
