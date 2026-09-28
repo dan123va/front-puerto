@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, PackageOpen, RefreshCw } from "lucide-react";
 import StatusBadge from "./components/StatusBadge";
+import SearchTypeahead from "./components/SearchTypeahead"
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Order {
@@ -23,6 +24,7 @@ export default function Home() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [selected, setSelected] = useState(null);
 
     const getOrders = async () => {
         setLoading(true);
@@ -46,6 +48,8 @@ export default function Home() {
         getOrders();
     }, []);
 
+    const shown = selected ? [selected] : orders;
+
     return <>
         <section className="hero">
             <div>
@@ -55,7 +59,17 @@ export default function Home() {
             </div>
             <div className="metric"><PackageOpen /><span>{orders.length}</span><small>pedidos registrados</small></div>
         </section>
+        
         <section className="panel">
+            <div className="toolbar">
+                <div>
+                    <h2>Pedidos recientes</h2>
+                    <p>
+                    {shown.length} {shown.length === 1 ? "resultado" : "resultados"}
+                    </p>
+                </div>
+                <SearchTypeahead orders={orders} onSelect={setSelected} />
+            </div>
             {loading ? <div className="state"><RefreshCw className="spin" /> Cargando pedidos…</div> :
                 error ? <div className="state">
                     <span>{error}</span>
@@ -71,7 +85,7 @@ export default function Home() {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>{orders.length > 0 && orders.map((order) => <tr key={order?.id}>
+                    <tbody>{shown.length > 0 && shown.map((order) => <tr key={order?.id}>
                         <td data-label="Pedido">
                             <strong>{order?.productCode}</strong>
                             <small>#{order?.id.slice(-8).toUpperCase()}</small>
