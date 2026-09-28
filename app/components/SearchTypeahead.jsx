@@ -31,7 +31,7 @@ export default function SearchTypeahead({ orders, onSelect }) {
       <Search size={19} />
       <input
         aria-label="Buscar pedidos"
-        placeholder="Busca por cliente, producto o folio"
+        placeholder="Busca por número de orden o por cliente"
         value={term}
         onFocus={() => setOpen(true)}
         onChange={(event) => {
