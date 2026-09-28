@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, PackageOpen, RefreshCw } from "lucide-react";
 import StatusBadge from "./components/StatusBadge";
 import SearchTypeahead from "./components/SearchTypeahead"
+import CreateOrderForm from "./components/CreateOrderForm";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Order {
@@ -24,7 +25,7 @@ export default function Home() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState<Order | null>(null);
 
     const getOrders = async () => {
         setLoading(true);
@@ -68,7 +69,16 @@ export default function Home() {
                     {shown.length} {shown.length === 1 ? "resultado" : "resultados"}
                     </p>
                 </div>
-                <SearchTypeahead orders={orders} onSelect={setSelected} />
+                <div className="toolbar-actions">
+                    <SearchTypeahead orders={orders} onSelect={setSelected} />
+                    <CreateOrderForm
+                        apiUrl={API_URL}
+                        onCreated={(order) => {
+                            setOrders((current) => [order, ...current]);
+                            setSelected(null);
+                        }}
+                    />
+                </div>
             </div>
             {loading ? <div className="state"><RefreshCw className="spin" /> Cargando pedidos…</div> :
                 error ? <div className="state">

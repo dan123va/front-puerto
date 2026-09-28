@@ -24,7 +24,9 @@ interface Order {
 }
 
 interface User {
-  fullName: string;
+  name: string;
+  paternalSurname: string;
+  maternalSurname: string;
   email: string;
   shippingAddress: string;
 }
@@ -41,8 +43,10 @@ export default function Order() {
   const userId = searchParams.get('userId');
 
   const [order, setOrder] = useState<Order | null>(null);
-  const [user, setUSer] = useState({
-    fullName: "",
+  const [user, setUser] = useState<User>({
+    name: "",
+    paternalSurname: "",
+    maternalSurname: "",
     email: "",
     shippingAddress: ""
   });
@@ -74,7 +78,7 @@ export default function Order() {
       ]);
 
       setOrder(orderData);
-      setUSer(userData);
+      setUser(userData);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "No fue posible cargar el detalle del pedido");
     } finally {
@@ -219,7 +223,9 @@ export default function Order() {
 
           <div className="person">
             <strong>
-              {user?.fullName}
+              {[user.name, user.paternalSurname, user.maternalSurname]
+                .filter(Boolean)
+                .join(" ")}
             </strong>
 
             <span>
